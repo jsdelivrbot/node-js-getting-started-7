@@ -20,7 +20,8 @@
 
 		<script>
 			var name = prompt("what is your name fella?");
-			var sock = new WebSocket("ws://localhost:5001");
+			//var sock = new WebSocket("ws://localhost:5001");
+			var sock = new WebSocket("ws://cryptic-ocean-42125.herokuapp.com:5001");
 
 			sock.onopen = function(){
 				sock.send(JSON.stringify({
