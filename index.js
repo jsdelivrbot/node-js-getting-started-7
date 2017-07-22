@@ -116,9 +116,14 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, 'index.js');
 
-const server = express()
+/*
+	const server = express()
   .use((req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+	*/
+
+	const server = express()
+	  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const s = new SocketServer({ server });//const wss
 
