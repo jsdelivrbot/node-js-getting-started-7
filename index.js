@@ -139,14 +139,6 @@ setInterval(() => {
 
 s.on('connection',function(ws){
 
-	s.clients.forEach((client) => {
-		//client.send(new Date().toTimeString());
-		client.send(JSON.stringify({
-			name:"group msg",
-			data: ws.personName + "has joined the discussion."
-		}));
-	});
-
 	ws.on('message',function(message){
 		console.log("Received: " + message);//console logs appear on the command line
 
@@ -154,6 +146,14 @@ s.on('connection',function(ws){
 		if(message.type == "name")
 		{
 			ws.personName = message.data;
+			s.clients.forEach((client) => {
+				//client.send(new Date().toTimeString());
+				client.send(JSON.stringify({
+					name:"group msg",
+					data: ws.personName + "has joined the discussion."
+				}));
+			});
+			
 			return;
 		}//end if
 
