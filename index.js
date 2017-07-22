@@ -128,7 +128,7 @@ const s = new SocketServer({ server });//const wss
 });*/
 
 setInterval(() => {
-  wss.clients.forEach((client) => {
+  s.clients.forEach((client) => {
     //client.send(new Date().toTimeString());
 		client.send(JSON.stringify({
 			name:"time",
