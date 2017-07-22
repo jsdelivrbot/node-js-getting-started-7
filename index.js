@@ -126,16 +126,34 @@ const s = new SocketServer({ server });//const wss
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
 });*/
+var run_timer = "";
+var count = 0;
 
-setInterval(() => {
-  s.clients.forEach((client) => {
-    //client.send(new Date().toTimeString());
-		client.send(JSON.stringify({
-			name:"time",
-			data: new Date().toLocaleString()
-		}));
-  });
-}, 45000);
+var keep_alive = function(tVar){
+	var time_var = tVar;
+	console.log("keep_alive running!");
+
+	if(time_var == "reset")
+	{
+		clearTimeout(run_timer);
+		count = 0;
+	}
+
+	if(time_var != "close"){
+		run_timer = setInterval(() => {
+		  s.clients.forEach((client) => {
+		    //client.send(new Date().toTimeString());
+				client.send(JSON.stringify({
+					name:"time",
+					data: new Date().toLocaleString()
+				}));
+		  });
+			count++;
+
+			if(count == 3){clearTimeout(run_timer);}
+		}, 45000);
+	}
+}//end keep_alive
 
 s.on('connection',function(ws){
 
@@ -153,7 +171,9 @@ s.on('connection',function(ws){
 					data: ws.personName + "has joined the discussion."
 				}));
 			});
-			
+
+			keep_alive("reset");
+
 			return;
 		}//end if
 

@@ -44,8 +44,23 @@
 
 			}
 
+			document.onkeypress = function(e)
+			{
+					var key = e.which || e.keyCode;
+					if (key === 13) { // 13 is enter
+						// code for enter
+						process_text();
+					}
+			}//end onkeypress
+
 			document.querySelector('button').onclick = function(){
-				var text = document.getElementById('text').value;
+				process_text();
+			};//end onclick
+
+			var process_text = function()
+			{
+				var input_el = document.getElementById('text');
+				var text = input_el.value;
 				log.innerHTML += "you (" + name + "): " + text + "</br>";
 				//sock.send(text);
 				sock.send(JSON.stringify({
@@ -53,8 +68,8 @@
 					data: text
 				}));
 
-				text.value = "";
-			};//end onclick
+				input_el.value = "";
+			}//end process_text
 		</script>
 	</body>
 </html>
