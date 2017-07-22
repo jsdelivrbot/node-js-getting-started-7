@@ -25,24 +25,63 @@
 			//var sock = new WebSocket("ws://localhost:5001");
 			//var HOST = location.origin.replace(/^http/, 'ws')//wont work on a separate server
 			//var sock = new WebSocket(HOST);
-			var sock = new WebSocket("wss://cryptic-ocean-42125.herokuapp.com");
+			var set_socket = function(sock){
 
-			sock.onopen = function(){
-				sock.send(JSON.stringify({
-					type:"name",
-					data: name
-				}));
-			}
+				var vObj = this;
 
-			var log = document.getElementById('log');
+				this.send_name = function()
+				{
+					sock.send(JSON.stringify({
+						type:"name",
+						data: name
+					}));
+				}//end send_name
 
-			sock.onmessage = function(event){
-				console.log(event);
-				var m_json = JSON.parse(event.data);
+				this.send_msg = function(txt)
+				{
+					sock.send(JSON.stringify({
+						type:"message",
+						data: txt
+					}));
+				}//end send_msg
 
-				log.innerHTML += m_json.name + ": " +  m_json.data + "</br>";
+				var log = document.getElementById('log');
 
-			}
+				sock.onmessage = function(event){
+					console.log(event);
+					var m_json = JSON.parse(event.data);
+
+					log.innerHTML += m_json.name + ": " +  m_json.data + "</br>";
+
+				}
+
+				sock.onclose = function(event){
+
+					log.innerHTML += "connection paused...</br>";
+
+					console.log(event);
+					status = "closed";
+				}
+
+				this.reopen = function(txt){
+					log.innerHTML += " re-opening connection...</br>";
+
+					sock.onopen = function(){
+						status = "open";
+						vObj.send_name();
+						vObj.send_msg(txt);
+					}//end onopen
+				}//this.reopen
+
+				sock.onopen = function(){
+					status = "open";
+					vObj.send_name();
+				}
+
+			}//end set_socket
+			var w_sock = new WebSocket("wss://cryptic-ocean-42125.herokuapp.com");
+			var status = "open";
+			var ws = new set_socket(w_sock);
 
 			document.onkeypress = function(e)
 			{
@@ -63,12 +102,18 @@
 				var text = input_el.value;
 				log.innerHTML += "you (" + name + "): " + text + "</br>";
 				//sock.send(text);
-				sock.send(JSON.stringify({
-					type:"message",
-					data: text
-				}));
+				if(status == "closed")
+				{
+					w_sock = new WebSocket("wss://cryptic-ocean-42125.herokuapp.com");
+					ws = new set_socket(w_sock);
+					ws.reopen(text);
+					input_el.value = "";
+				}else{
+					ws.send_msg(text);
+					input_el.value = "";
+				}//end else
 
-				input_el.value = "";
+
 			}//end process_text
 		</script>
 	</body>
