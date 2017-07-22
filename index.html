@@ -22,7 +22,9 @@
 			//var name = prompt("what is your name fella?");
 			var name = "tester";
 			//var sock = new WebSocket("ws://localhost:5001");
-			var sock = new WebSocket("wss:https://cryptic-ocean-42125.herokuapp.com");
+			//var HOST = location.origin.replace(/^http/, 'ws')
+			//var sock = new WebSocket(HOST);
+			var sock = new WebSocket("wss://cryptic-ocean-42125.herokuapp.com");
 
 			sock.onopen = function(){
 				sock.send(JSON.stringify({
