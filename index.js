@@ -173,8 +173,6 @@ s.on('connection',function(ws){
 				}));
 			});
 
-			keep_alive("reset");
-
 			return;
 		}//end if
 
@@ -188,6 +186,7 @@ s.on('connection',function(ws){
 			}//end if
 		})
 
+					keep_alive("reset");
 		//ws.send("From Server: " + message);
 	});
 	ws.on('close',function(){
