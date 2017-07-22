@@ -142,11 +142,12 @@ var keep_alive = function(tVar){
 
 	if(time_var != "close"){
 		run_timer = setInterval(() => {
+			var msg_dat = (count == 2) ? " connection close warning. " : "";
 		  s.clients.forEach((client) => {
 		    //client.send(new Date().toTimeString());
 				client.send(JSON.stringify({
 					name:"time",
-					data: new Date().toLocaleString()
+					data: new Date().toLocaleString() + msg_dat
 				}));
 		  });
 			count = count + 1;
