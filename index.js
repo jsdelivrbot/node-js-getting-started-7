@@ -137,6 +137,7 @@ var keep_alive = function(tVar){
 	{
 		clearTimeout(run_timer);
 		count = 0;
+		console.log("keep_alive is reset");
 	}
 
 	if(time_var != "close"){
@@ -149,7 +150,7 @@ var keep_alive = function(tVar){
 				}));
 		  });
 			count++;
-
+			console.log("count is " + count);
 			if(count == 3){clearTimeout(run_timer);}
 		}, 45000);
 	}
