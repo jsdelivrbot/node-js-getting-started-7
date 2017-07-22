@@ -149,7 +149,7 @@ var keep_alive = function(tVar){
 					data: new Date().toLocaleString()
 				}));
 		  });
-			count++;
+			count = count + 1;
 			console.log("count is " + count);
 			if(count == 3){clearTimeout(run_timer);}
 		}, 45000);
@@ -169,7 +169,7 @@ s.on('connection',function(ws){
 				//client.send(new Date().toTimeString());
 				client.send(JSON.stringify({
 					name:"group msg",
-					data: ws.personName + "has joined the discussion."
+					data: ws.personName + " has joined the discussion."
 				}));
 			});
 
