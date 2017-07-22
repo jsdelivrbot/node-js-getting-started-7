@@ -13,6 +13,8 @@ console.log("server running!")
 // "https://github.com/inspectaTech/node-js-getting-started.git"
 
 s.on('connection',function(ws){
+	var id = w.upgradeReq.headers['sec-websocket-key'];
+	
 	ws.on('message',function(message){
 		console.log("Received: " + message);//console logs appear on the command line
 
