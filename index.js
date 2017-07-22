@@ -16,7 +16,7 @@ console.log("server running!")
 // "https://github.com/inspectaTech/node-js-getting-started.git"
 
 s.on('connection',function(ws){
-	var id = w.upgradeReq.headers['sec-websocket-key'];
+	//var id = w.upgradeReq.headers['sec-websocket-key'];
 
 	ws.on('message',function(message){
 		console.log("Received: " + message);//console logs appear on the command line
@@ -120,15 +120,44 @@ const server = express()
   .use((req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-const wss = new SocketServer({ server });
+const s = new SocketServer({ server });//const wss
 
-wss.on('connection', (ws) => {
+/*s.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
-});
+});*/
 
 /*setInterval(() => {
   wss.clients.forEach((client) => {
     client.send(new Date().toTimeString());
   });
 }, 1000);*/
+
+s.on('connection',function(ws){
+
+	ws.on('message',function(message){
+		console.log("Received: " + message);//console logs appear on the command line
+
+		message = JSON.parse(message);
+		if(message.type == "name")
+		{
+			ws.personName = message.data;
+			return;
+		}//end if
+
+		s.clients.forEach(function e(client){
+			if(client != ws){
+				//you need the name of the one sending the message not the one recieving it
+				client.send(JSON.stringify({
+					name:ws.personName,
+					data: message.data
+				}));
+			}//end if
+		})
+
+		//ws.send("From Server: " + message);
+	});
+	ws.on('close',function(){
+		console.log("I lost a client");
+	});
+});
