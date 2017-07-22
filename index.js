@@ -114,16 +114,11 @@ const SocketServer = require('ws').Server;
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
-const INDEX = path.join(__dirname, 'index.js');
+const INDEX = path.join(__dirname, 'blank.html');
 
-/*
-	const server = express()
+const server = express()
   .use((req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-	*/
-
-	const server = express()
-	  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const s = new SocketServer({ server });//const wss
 
@@ -164,5 +159,10 @@ s.on('connection',function(ws){
 	});
 	ws.on('close',function(){
 		console.log("I lost a client");
+		if(client == ws)
+			ws.send(JSON.stringify({
+			name:ws.personName,
+			data: "I'm lost!"
+		}));
 	});
 });
