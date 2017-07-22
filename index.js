@@ -5,7 +5,6 @@ var server = require('ws').Server;
 
 var my_port = process.env.PORT || 5000;
 var s = new server({port:my_port});
-
 //var s = new WebSocket('ws://cryptic-ocean-42125.herokuapp.com');
 console.log("server running!")
 
