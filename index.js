@@ -127,11 +127,15 @@ const s = new SocketServer({ server });//const wss
   ws.on('close', () => console.log('Client disconnected'));
 });*/
 
-/*setInterval(() => {
+setInterval(() => {
   wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
+    //client.send(new Date().toTimeString());
+		client.send(JSON.stringify({
+			name:"time",
+			data: new Date().toLocaleString()
+		}));
   });
-}, 1000);*/
+}, 15000);
 
 s.on('connection',function(ws){
 
