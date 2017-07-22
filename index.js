@@ -159,10 +159,13 @@ s.on('connection',function(ws){
 	});
 	ws.on('close',function(){
 		console.log("I lost a client");
-		if(client == ws)
-			ws.send(JSON.stringify({
-			name:ws.personName,
-			data: "I'm lost!"
-		}));
-	});
+		s.clients.forEach(function e(client){
+			if(client == ws){
+				ws.send(JSON.stringify({
+					name:ws.personName,
+					data: "I'm lost!"
+				}));
+			}//end if client
+		});
+	});//end on('close'
 });
