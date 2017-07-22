@@ -161,7 +161,7 @@ s.on('connection',function(ws){
 		console.log("I lost a client");
 		s.clients.forEach(function e(client){
 			if(client == ws){
-				ws.send(JSON.stringify({
+				client.send(JSON.stringify({
 					name:ws.personName,
 					data: "I'm lost!"
 				}));
