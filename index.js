@@ -142,16 +142,19 @@ var keep_alive = function(tVar){
 
 		run_timer = setInterval(() => {
 			var msg_dat = (count == 2) ? " connection close warning. " : "";
-		  s.clients.forEach((client) => {
-		    //client.send(new Date().toTimeString());
-				client.send(JSON.stringify({
-					name:"time",
-					data: new Date().toLocaleString() + msg_dat
-				}));
-		  });
+			if(count < 4)
+			{
+				s.clients.forEach((client) => {
+			    //client.send(new Date().toTimeString());
+					client.send(JSON.stringify({
+						name:"time",
+						data: new Date().toLocaleString() + msg_dat
+					}));
+			  });
+			}//end if count < 4
 			count = count + 1;
 			console.log("count is " + count);
-			if(count == 3){clearTimeout(run_timer);}
+			if(count > 2){clearInterval(run_timer);}
 		}, 45000);
 
 }//end keep_alive
@@ -185,8 +188,7 @@ s.on('connection',function(ws){
 				}));
 			}//end if
 		})
-
-					keep_alive("reset");
+			keep_alive("reset");
 		//ws.send("From Server: " + message);
 	});
 	ws.on('close',function(){
