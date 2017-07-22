@@ -140,7 +140,6 @@ var keep_alive = function(tVar){
 		console.log("keep_alive is reset");
 	}
 
-	if(time_var != "close"){
 		run_timer = setInterval(() => {
 			var msg_dat = (count == 2) ? " connection close warning. " : "";
 		  s.clients.forEach((client) => {
@@ -154,7 +153,7 @@ var keep_alive = function(tVar){
 			console.log("count is " + count);
 			if(count == 3){clearTimeout(run_timer);}
 		}, 45000);
-	}
+
 }//end keep_alive
 
 s.on('connection',function(ws){
@@ -173,7 +172,7 @@ s.on('connection',function(ws){
 					data: ws.personName + " has joined the discussion."
 				}));
 			});
-
+			keep_alive("start");
 			return;
 		}//end if
 
