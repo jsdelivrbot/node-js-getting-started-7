@@ -4,7 +4,8 @@
 		<meta charset="UTF-8">
 		<title>WebSockets</title>
 		<style>
-		#log{height:300px; width:60%; border:1px solid grey;margin:10px auto;}
+		#log{height:300px; width:60%; border:1px solid grey;margin:10px auto;
+			overflow-y:auto; overflow-x:hidden;}
 		#in_ctrl{display:flex; justify-content: center;}
 		</style>
 	</head>
@@ -51,7 +52,9 @@
 					type:"message",
 					data: text
 				}));
-			};
+
+				text.value = "";
+			};//end onclick
 		</script>
 	</body>
 </html>
