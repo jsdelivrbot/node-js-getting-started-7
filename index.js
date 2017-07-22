@@ -57,9 +57,9 @@ var server = http.createServer(function(request, response) {
     response.end();
 });
 
-var my_port = process.env.PORT || 8080;
+//var my_port = process.env.PORT || 8080;
 
-server.listen(my_port, function() {
+server.listen(8080, function() {
     console.log((new Date()) + ' Server is listening on port ' + my_port);
 });
 
