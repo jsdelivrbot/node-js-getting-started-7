@@ -1,8 +1,8 @@
 
 var server = require('ws').Server;
 
-//var s = new server({port:5001});
-var s = new WebSocketServer({port:80});
+var s = new server({port:5001});
+//var s = new WebSocketServer({port:80});
 //var s = new WebSocket('ws://cryptic-ocean-42125.herokuapp.com');
 
 
